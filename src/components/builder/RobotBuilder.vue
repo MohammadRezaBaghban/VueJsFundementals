@@ -2,31 +2,31 @@
      <div>
     <div class="top-row">
       <div class="top part">
-        <img :src="availableParts.heads[selectedHeadIndex].src" title="head"/>
+        <img :src="selectedRobot.head.src" title="head"/>
         <button @click="selectNextHead()" class="prev-selector">&#9668;</button>
         <button @click="selectPreviousHead()" class="next-selector">&#9658;</button>
       </div>
     </div>
     <div class="middle-row">
       <div class="left part">
-        <img :src="availableParts.arms[selectedLArmIndex].src" title="left arm"/>
+        <img :src="selectedRobot.lArm.src" title="left arm"/>
         <button @click="selectNextLArm()" class="prev-selector">&#9650;</button>
         <button @click="selectPreviousLArm()" class="next-selector">&#9660;</button>
       </div>
       <div class="center part">
-        <img :src="availableParts.torsos[selectedBodyIndex].src" title="left arm"/>
+        <img :src="selectedRobot.body.src" title="left arm"/>
         <button @click="selectNextBody()" class="prev-selector">&#9668;</button>
         <button @click="selectPreviousBody()" class="next-selector">&#9658;</button>
       </div>
       <div class="right part">
-        <img :src="availableParts.arms[selectedRArmIndex].src" title="left arm"/>
+        <img :src="selectedRobot.rArm.src" title="left arm"/>
         <button @click="selectNextRArm()" class="prev-selector">&#9650;</button>
         <button @click="selectPreviousRArm()" class="next-selector">&#9660;</button>
       </div>
     </div>
     <div class="bottom-row">
       <div class="bottom part">
-        <img :src="availableParts.bases[selectedBasesIndex].src" title="left arm"/>
+        <img :src="selectedRobot.Base.src" title="left arm"/>
         <button @click="selectNextBase()" class="prev-selector">&#9668;</button>
         <button @click="selectPreviousBase()" class="next-selector">&#9658;</button>
       </div>
@@ -60,7 +60,17 @@ export default {
       selectedBasesIndex: 0,
     };
   },
-
+  computed: {
+    selectedRobot() {
+      return {
+        head: availableParts.heads[this.selectedHeadIndex],
+        lArm: availableParts.arms[this.selectedLArmIndex],
+        rArm: availableParts.arms[this.selectedRArmIndex],
+        body: availableParts.torsos[this.selectedHeadIndex],
+        Base: availableParts.bases[this.selectedBasesIndex],
+      };
+    },
+  },
   methods: {
     selectNextHead() {
       this.selectedHeadIndex = getNextValidIndex(
