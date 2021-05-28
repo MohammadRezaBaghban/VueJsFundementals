@@ -3,8 +3,8 @@
     <div class="top-row">
       <div class="top part">
         <img v-bind:src="availableParts.heads[selectedHeadIndex].src" title="head"/>
-        <button v-on:click="ChangeHead('previous')" class="prev-selector">&#9668;</button>
-        <button v-on:click="ChangeHead('next')" class="next-selector">&#9658;</button>
+        <button v-on:click="selectNextHead()" class="prev-selector">&#9668;</button>
+        <button v-on:click="selectPreviousHead()" class="next-selector">&#9658;</button>
       </div>
     </div>
     <div class="middle-row">
@@ -61,23 +61,16 @@ export default {
   },
 
   methods: {
-    ChangeHead(input) {
-      if (input === 'next') {
-        this.selectedHeadIndex = getNextValidIndex(this.selectedHeadIndex);
-      } else if (input === 'previous') {
-        this.selectedHeadIndex = getPreviousValidIndex(this.selectedHeadIndex);
-      }
-    },
     selectNextHead() {
       this.selectedHeadIndex = getNextValidIndex(
         this.selectedHeadIndex,
-        4,
+        this.maxNumberOfPictures,
       );
     },
     selectPreviousHead() {
       this.selectedHeadIndex = getPreviousValidIndex(
         this.selectedHeadIndex,
-        4,
+        this.maxNumberOfPictures,
       );
     },
   },
