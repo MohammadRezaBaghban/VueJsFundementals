@@ -1,7 +1,16 @@
 <template>
-     <div>
+  <div class="content">
+    <button class="add-to-cart" @click="addToCard()">Add Cart</button>
     <div class="top-row">
       <div class="top part">
+        <div class="robot-name">
+          <br/>
+            {{selectedRobot.head.title}}
+            <span class="sale" v-if="selectedRobot.head.onSale">
+              Sale
+            </span>
+          <br/>
+        </div>
         <img :src="selectedRobot.head.src" title="head"/>
         <button @click="selectNextHead()" class="prev-selector">&#9668;</button>
         <button @click="selectPreviousHead()" class="next-selector">&#9658;</button>
@@ -52,6 +61,7 @@ export default {
   data() {
     return {
       availableParts,
+      cart: [],
       maxNumberOfPictures: 4,
       selectedHeadIndex: 0,
       selectedRArmIndex: 0,
@@ -66,12 +76,18 @@ export default {
         head: availableParts.heads[this.selectedHeadIndex],
         lArm: availableParts.arms[this.selectedLArmIndex],
         rArm: availableParts.arms[this.selectedRArmIndex],
-        body: availableParts.torsos[this.selectedHeadIndex],
+        body: availableParts.torsos[this.selectedBodyIndex],
         Base: availableParts.bases[this.selectedBasesIndex],
       };
     },
   },
   methods: {
+    addToCart() {
+      const robot = this.selectedRobot;
+      const cost = robot.head.cost + robot.lArm.cost
+      + robot.rArm.cost + robot.body.cost + robot.Base.cost;
+      this.cart.push({ robot, cost });
+    },
     selectNextHead() {
       this.selectedHeadIndex = getNextValidIndex(
         this.selectedHeadIndex,
@@ -134,7 +150,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style>
@@ -225,5 +240,27 @@ export default {
 }
 .right .next-selector {
   right: -3px;
+}
+
+.sale {
+
+  color:Red
+}
+
+.robot-name {
+  position: absolute;
+  top: -25px;
+  text-align: center;
+  width:100%;
+}
+.content{
+  position:relative
+}
+.add-to-cart{
+  position: absolute;
+  right:30px;
+  width:220px;
+  padding:3px;
+  font-size:16px;
 }
 </style>
